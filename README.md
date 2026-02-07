@@ -1,69 +1,37 @@
-# DevSecOps Sample Microservices - Java Spring Boot
+# Account Service (Reference Microservice)
 
-This repository contains three **minimal** Java Spring Boot microservices
-('account-service', 'payment-service' and 'transaction-service') that mirror the
-sample services described in the Peerless DevSecOps assessment.  The goal
-is to provide a broken baseline: each service includes intentional
-security and deployment flaws. Candidates are
-expected to identify and remediate these issues as part of the assessment.
+This repository contains a reference **Spring Boot microservice** for basic account management
+(e.g. account creation, retrieval and status updates).
 
-## Services Overview
+I use this project as:
 
-| Service | Port | Description |
-|---------|------|-------------|
-| **account-service** | 8081 | Maintains account balances.  Provides a `GET /balance` and `POST /credit` endpoint.|
-| **payment-service** | 8080 | Processes payments by calling the account service. |
-| **transaction-service** | 8082 |
+- A **teaching aid** when mentoring junior and mid–level engineers on microservice design.
+- A **DevSecOps assessment template** for senior candidates (they extend or harden the service).
+- A **public reference** for clean, testable service architecture in a fintech context.
 
-All three services are packaged as standalone Spring Boot applications with
-their own Maven 'pom.xml', 'Dockerfile' and Kubernetes manifest.
+## What this project demonstrates
 
-## Running Locally
+- Layered architecture (controller → service → repository)
+- RESTful API design with clear request/response DTOs
+- Basic validation and error handling
+- Unit tests around the core domain logic
+- Containerisation with Dockerfile (where applicable)
 
-1. Build the service using Maven:
+## Who this is for
 
-   ```bash
-   cd account-service
-   mvn package
-   java -jar target/account-service-0.0.1-SNAPSHOT.jar
-   ```
+- Engineers who want to see a **realistic but simplified** microservice structure.
+- Candidates preparing for technical interviews around Java/Spring microservices.
+- Mentees I work with across Nigeria/UK who need a **public, reusable** code example.
 
-2. Repeat for the other services, adjusting the port numbers.
-
-Endpoints can be accessed at 'http://localhost:<port>/'.
-
-## Docker
-
-Each service includes a simple 'Dockerfile'.  These files intentionally
-demonstrate bad practices.
-
-To build and run the account service:
+## How to run
 
 ```bash
+# clone the repository
+git clone https://github.com/dunamis2015/account-service.git
 cd account-service
-mvn package  # produces target/account-service-0.0.1-SNAPSHOT.jar
-docker build -t account-service:latest .
-docker run -p 8081:8081 account-service:latest
-```
 
-## Kubernetes
+# run tests
+./mvnw test
 
-Each service has a corresponding 'k8s.yaml' which defines a basic
-'Deployment' and 'Service'.  
-
-Deploy the account service via:
-
-```bash
-kubectl apply -f account-service/k8s.yaml
-```
-
-Repeat for the other services.  Note that you must build and push the
-container images to a registry accessible by your cluster ('account-service:latest'
-in the manifest is a placeholder).
-
-## Purpose and Caveats
-
-These services are intentionally flawed to illustrate common DevSecOps
-pitfalls.  They should **never** be used in production.  Feel free to
-extend, restructure or secure them as part of your assessment.  Be sure to
-document any changes and the rationale behind them.
+# start the service
+./mvnw spring-boot:run
