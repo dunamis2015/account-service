@@ -1,2 +1,2 @@
 # account-service
-Starter code assessment for Peerless Senior DevSecOps Lead role
+Reference Spring Boot microservice for account management – used in mentoring and DevSecOps interview assessments.
